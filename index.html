@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Password Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="light-bg-shapes"></div>
+    <div id="toast-container"></div>
+
+    <div class="container">
+        <header class="main-header">
+            <div class="brand-logo"><i class="fas fa-shield-halved"></i> Password Manager</div>
+            <h1>Secure Your Digital Identity</h1>
+            <p>Advanced local encryption for your most sensitive credentials.</p>
+        </header>
+
+        <section class="form-section card">
+            <h2><i class="fas fa-plus-circle"></i> Add New Credential</h2>
+            <form id="passwordForm">
+                <div class="input-group">
+                    <label for="website">Website URL</label>
+                    <input type="text" id="website" placeholder="e.g. google.com" required>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Email or Username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <button class="btn-primary" type="submit" id="submitBtn">Save to Vault</button>
+            </form>
+        </section>
+
+        <section class="table-section card">
+            <div class="table-header">
+                <h2><i class="fas fa-key"></i> Stored Passwords</h2>
+            </div>
+            <div class="table-wrapper">
+                <table id="passwordTable">
+                    <thead>
+                        <tr>
+                            <th>Website</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
