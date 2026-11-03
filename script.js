@@ -93,7 +93,6 @@ const showPasswords = () => {
 
 // URL Validation Regex function
 const isValidUrl = (string) => {
-    // Regex to check valid domains like google.com, https://google.com, sub.domain.org, etc.
     const res = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
     return res.test(string);
 };
@@ -104,20 +103,33 @@ document.getElementById("submitBtn").addEventListener("click", (e) => {
     const username = document.getElementById("username");
     const password = document.getElementById("password");
 
-    if (!website.value.trim() || !username.value.trim() || !password.value.trim()) {
+    const webVal = website.value.trim();
+    const userVal = username.value.trim();
+    const passVal = password.value.trim();
+
+    if (!webVal || !userVal || !passVal) {
         showToast("Please fill all fields", "danger");
         return;
     }
 
-    // Check strict URL validation as requested by sir
-    if (!isValidUrl(website.value.trim())) {
+    // Check strict URL validation
+    if (!isValidUrl(webVal)) {
         showToast("Please enter a valid website URL (e.g., google.com)", "danger");
         website.focus();
         return;
     }
 
     const data = JSON.parse(localStorage.getItem("passwords") || "[]");
-    data.push({ website: website.value.trim(), username: username.value.trim(), password: password.value.trim() });
+
+    // Check for duplicate entry (Same Website AND Same Username)
+    const isDuplicate = data.some(item => item.website.toLowerCase() === webVal.toLowerCase() && item.username.toLowerCase() === userVal.toLowerCase());
+
+    if (isDuplicate) {
+        showToast("Credential for this website and username already exists!", "danger");
+        return;
+    }
+
+    data.push({ website: webVal, username: userVal, password: passVal });
     localStorage.setItem("passwords", JSON.stringify(data));
 
     website.value = ""; 
