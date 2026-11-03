@@ -91,22 +91,38 @@ const showPasswords = () => {
     `).join("");
 };
 
+// URL Validation Regex function
+const isValidUrl = (string) => {
+    // Regex to check valid domains like google.com, https://google.com, sub.domain.org, etc.
+    const res = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+    return res.test(string);
+};
+
 document.getElementById("submitBtn").addEventListener("click", (e) => {
     e.preventDefault();
     const website = document.getElementById("website");
     const username = document.getElementById("username");
     const password = document.getElementById("password");
 
-    if (!website.value || !username.value || !password.value) {
-        showToast("Please fill all fields", "info");
+    if (!website.value.trim() || !username.value.trim() || !password.value.trim()) {
+        showToast("Please fill all fields", "danger");
+        return;
+    }
+
+    // Check strict URL validation as requested by sir
+    if (!isValidUrl(website.value.trim())) {
+        showToast("Please enter a valid website URL (e.g., google.com)", "danger");
+        website.focus();
         return;
     }
 
     const data = JSON.parse(localStorage.getItem("passwords") || "[]");
-    data.push({ website: website.value, username: username.value, password: password.value });
+    data.push({ website: website.value.trim(), username: username.value.trim(), password: password.value.trim() });
     localStorage.setItem("passwords", JSON.stringify(data));
 
-    website.value = ""; username.value = ""; password.value = "";
+    website.value = ""; 
+    username.value = ""; 
+    password.value = "";
     showPasswords();
     showToast("Password saved successfully!", "success");
 });
